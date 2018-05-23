@@ -6,10 +6,11 @@
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 22:23:20 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/23 13:26:16 by wseegers         ###   ########.fr       */
+/*   Updated: 2018/05/23 16:19:42 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "libft.h"
 #include "get_next_line.h"
 
@@ -23,7 +24,7 @@ static t_file	*ft_getfile(int fd, t_list *flist)
 	if (((t_file*)flist->content)->fd != fd)
 	{
 		file = (t_file*)ft_memalloc(sizeof(t_file));
-		*file = newfile(fd);
+		*file = NEWFILE(fd);
 		flist->next = ft_lstnew(file, sizeof(t_file));
 		file = (t_file*)flist->next->content;
 	}
@@ -56,7 +57,7 @@ static void ft_getline(t_file *file, char **line)
 	char *buf;
 	char *ret;
 	size_t size;
-	int pos;
+	size_t pos;
 
 	size = 64;
 	pos = 0;
@@ -77,52 +78,42 @@ static void ft_getline(t_file *file, char **line)
 	*line = ret;
 }
 
+static void		ft_clean_flist(t_list **flist)
+{
+	t_list	*current;
+	t_list	*next;
+	t_file	*file;
+	
+	current = *flist;
+	while (current)
+	{
+		file = (t_file*)current->content;
+		next = current->next;
+		if (file->flag <= 0)
+		{
+			if (current == *flist)
+				*flist = next;
+			ft_strdel(&file->buf);
+		}
+		current = next;
+	}
+}
+
 int		get_next_line(int fd, char **line)
 {
 	static t_list	*flist;
 	t_file			*file;
-	int 			ret;
 	
 	if (fd < 0 || !line)
 		return (-1);
 	if (!flist)
 	{
 		file = (t_file*)ft_memalloc(sizeof(t_file));
-		*file = newfile(fd);
+		*file = NEWFILE(fd);
 		flist = ft_lstnew(file, sizeof(t_file));
 	}
 	file = ft_getfile(fd, flist);
  	ft_getline(file, line);
+	ft_clean_flist(&flist);
 	return (file->flag);
-}
-
-//remember to remove main
-#include <stdio.h>
-#include <fcntl.h>
-
-int main(void)
-{
-	char *line;
-	int fd1;
-	int fd2;
-	int ret;
-	
-	ret = get_next_line(-1, &line);
-	printf("err-> %d\n", ret);
-	ret = get_next_line(23, &line);
-	printf("err-> %d\n", ret);
-	ret = get_next_line(23, NULL);
-	printf("err-> %d\n", ret);
-	fd1 = open("test_text1.txt", O_RDONLY);
-	fd2 = open("test_text2.txt", O_RDONLY);
-	while (get_next_line(fd1, &line))
-	{
-		printf("%s\n", line);
-		ft_strdel(&line);
-		if (get_next_line(fd2, &line))
-			printf("%s\n", line);
-		ft_strdel(&line);
-	}
-	close(fd1);
-	return (0);
 }
