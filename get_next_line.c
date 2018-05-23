@@ -6,7 +6,7 @@
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 22:23:20 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/23 16:19:42 by wseegers         ###   ########.fr       */
+/*   Updated: 2018/05/23 22:37:06 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_file	*ft_getfile(int fd, t_list *flist)
 	return (file);
 }
 
-static char		ft_getchar(t_file* file)
+static char		ft_getchar(t_file *file)
 {
 	int ret;
 
@@ -52,12 +52,12 @@ static char		ft_getchar(t_file* file)
 	return (file->buf[file->fpos - 1]);
 }
 
-static void ft_getline(t_file *file, char **line)
+static void		ft_getline(t_file *file, char **line)
 {
-	char *buf;
-	char *ret;
-	size_t size;
-	size_t pos;
+	char	*buf;
+	char	*ret;
+	size_t	size;
+	size_t	pos;
 
 	size = 64;
 	pos = 0;
@@ -83,7 +83,7 @@ static void		ft_clean_flist(t_list **flist)
 	t_list	*current;
 	t_list	*next;
 	t_file	*file;
-	
+
 	current = *flist;
 	while (current)
 	{
@@ -99,11 +99,11 @@ static void		ft_clean_flist(t_list **flist)
 	}
 }
 
-int		get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static t_list	*flist;
 	t_file			*file;
-	
+
 	if (fd < 0 || !line)
 		return (-1);
 	if (!flist)
@@ -113,7 +113,7 @@ int		get_next_line(int fd, char **line)
 		flist = ft_lstnew(file, sizeof(t_file));
 	}
 	file = ft_getfile(fd, flist);
- 	ft_getline(file, line);
+	ft_getline(file, line);
 	ft_clean_flist(&flist);
 	return (file->flag);
 }

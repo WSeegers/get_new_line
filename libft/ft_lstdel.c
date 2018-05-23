@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/13 22:13:33 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/23 22:37:08 by wseegers         ###   ########.fr       */
+/*   Created: 2018/04/29 21:52:12 by wseegers          #+#    #+#             */
+/*   Updated: 2018/05/23 12:39:17 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft.h"
-
-int				get_next_line(const int fd, char **line);
-
-# define BUFF_SIZE 32
-
-typedef unsigned int	t_fpos;
-
-typedef struct	s_file
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	int		fd;
-	char	*buf;
-	size_t	bufsize;
-	t_fpos	fpos;
-	int		flag;
-}				t_file;
+	t_list **pp_lstcur;
+	t_list **pp_lstnext;
 
-# define NEWFILE(fd) (t_file){fd, ft_strnew(BUFF_SIZE), 0, 0, 1}
-
-#endif
+	if (!alst || !*alst)
+		return ;
+	pp_lstcur = alst;
+	while ((*pp_lstcur)->next)
+	{
+		pp_lstnext = &((*pp_lstcur)->next);
+		ft_lstdelone(pp_lstcur, del);
+		pp_lstcur = pp_lstnext;
+	}
+	ft_lstdelone(pp_lstcur, del);
+}

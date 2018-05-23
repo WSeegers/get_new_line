@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/13 22:13:33 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/23 22:37:08 by wseegers         ###   ########.fr       */
+/*   Created: 2018/04/25 21:29:33 by wseegers          #+#    #+#             */
+/*   Updated: 2018/05/23 11:18:34 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft.h"
-
-int				get_next_line(const int fd, char **line);
-
-# define BUFF_SIZE 32
-
-typedef unsigned int	t_fpos;
-
-typedef struct	s_file
+char	*ft_strmap(char const *s, char (*f)(char))
 {
-	int		fd;
-	char	*buf;
-	size_t	bufsize;
-	t_fpos	fpos;
-	int		flag;
-}				t_file;
+	char	*ret;
+	size_t	i;
 
-# define NEWFILE(fd) (t_file){fd, ft_strnew(BUFF_SIZE), 0, 0, 1}
-
-#endif
+	if (!s)
+		return (NULL);
+	if (!(ret = ft_strnew(ft_strlen(s))))
+		return (NULL);
+	i = -1;
+	while (s[++i])
+		ret[i] = f(s[i]);
+	return (ret);
+}

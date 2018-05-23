@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/13 22:13:33 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/23 22:37:08 by wseegers         ###   ########.fr       */
+/*   Created: 2018/04/25 21:24:53 by wseegers          #+#    #+#             */
+/*   Updated: 2018/05/23 21:01:21 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft.h"
-
-int				get_next_line(const int fd, char **line);
-
-# define BUFF_SIZE 32
-
-typedef unsigned int	t_fpos;
-
-typedef struct	s_file
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	int		fd;
-	char	*buf;
-	size_t	bufsize;
-	t_fpos	fpos;
-	int		flag;
-}				t_file;
+	t_uint i;
 
-# define NEWFILE(fd) (t_file){fd, ft_strnew(BUFF_SIZE), 0, 0, 1}
-
-#endif
+	if (!s)
+		return ;
+	i = 0;
+	while (*s)
+		f(i++, s++);
+}

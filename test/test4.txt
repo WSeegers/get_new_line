@@ -1,0 +1,10 @@
+LINE1 from 4$
+LINE2 from 4$
+LINE3 from 4$
+LINE4 from 4$
+LINE5 from 4$
+LINE6 from 4$
+LINE7 from 4$
+LINE8 from 4$
+LINE9 from 4$
+END 4$
