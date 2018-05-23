@@ -6,18 +6,16 @@
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 22:23:20 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/14 03:09:02 by wseegers         ###   ########.fr       */
+/*   Updated: 2018/05/23 13:26:16 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "libft.h"
 #include "get_next_line.h"
-#include <stdio.h>
 
-static t_file *ft_getfile(int fd, t_list *flist)
+static t_file	*ft_getfile(int fd, t_list *flist)
 {
-	t_file *file;
+	t_file	*file;
 
 	while (((t_file*)flist->content)->fd != fd && flist->next)
 		if (flist->next)
@@ -28,16 +26,16 @@ static t_file *ft_getfile(int fd, t_list *flist)
 		*file = newfile(fd);
 		flist->next = ft_lstnew(file, sizeof(t_file));
 		file = (t_file*)flist->next->content;
-	} 
+	}
 	else
 		file = (t_file*)flist->content;
 	return (file);
 }
 
-static char ft_getchar(t_file* file)
+static char		ft_getchar(t_file* file)
 {
 	int ret;
-	
+
 	if (file->fpos == file->bufsize)
 	{
 		ret = read(file->fd, file->buf, BUFF_SIZE);
@@ -98,6 +96,7 @@ int		get_next_line(int fd, char **line)
 	return (file->flag);
 }
 
+//remember to remove main
 #include <stdio.h>
 #include <fcntl.h>
 
