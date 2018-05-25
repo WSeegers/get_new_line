@@ -6,7 +6,7 @@
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 22:23:20 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/23 22:37:06 by wseegers         ###   ########.fr       */
+/*   Updated: 2018/05/25 14:41:55 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static t_file	*ft_getfile(int fd, t_list *flist)
 	}
 	else
 		file = (t_file*)flist->content;
+	if (read(file->fd, NULL, 0) < 0)
+		file->flag = -1;
 	return (file);
 }
 
@@ -103,6 +105,7 @@ int				get_next_line(int fd, char **line)
 {
 	static t_list	*flist;
 	t_file			*file;
+	int				ret;
 
 	if (fd < 0 || !line)
 		return (-1);
@@ -114,6 +117,12 @@ int				get_next_line(int fd, char **line)
 	}
 	file = ft_getfile(fd, flist);
 	ft_getline(file, line);
+	if (file->flag >= 0 && ft_strlen(*line))
+		ret = 1;
+	else
+	{
+		ret = -1;
+	}
 	ft_clean_flist(&flist);
-	return (file->flag);
+	return (ret);
 }
