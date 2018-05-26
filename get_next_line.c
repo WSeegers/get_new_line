@@ -6,7 +6,7 @@
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 22:23:20 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/25 14:41:55 by wseegers         ###   ########.fr       */
+/*   Updated: 2018/05/26 12:22:46 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,7 @@ int				get_next_line(int fd, char **line)
 	if (file->flag >= 0 && ft_strlen(*line))
 		ret = 1;
 	else
-	{
-		ret = -1;
-	}
+		ret = file->flag;
 	ft_clean_flist(&flist);
 	return (ret);
 }
