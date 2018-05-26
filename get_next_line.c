@@ -6,7 +6,7 @@
 /*   By: wseegers <wseegers.mauws@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 22:23:20 by wseegers          #+#    #+#             */
-/*   Updated: 2018/05/26 12:22:46 by wseegers         ###   ########.fr       */
+/*   Updated: 2018/05/26 13:42:56 by wseegers         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int				get_next_line(int fd, char **line)
 		file = (t_file*)ft_memalloc(sizeof(t_file));
 		*file = NEWFILE(fd);
 		flist = ft_lstnew(file, sizeof(t_file));
+		ft_memdel((void**)&file);
 	}
 	file = ft_getfile(fd, flist);
 	ft_getline(file, line);
